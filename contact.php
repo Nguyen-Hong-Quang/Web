@@ -11,9 +11,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $subject = $_POST['subject'];
     $message = $_POST['message'];
 
-    // Ở đây bạn có thể lưu vào database hoặc gửi email
-    // Tạm thời chỉ hiển thị thông báo thành công
-    $success = 'Thank you for contacting us! We will get back to you as soon as possible.';
+   $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+
+    // Connect to MySQL (change user/pass if different)
+    $mysqli = new mysqli('127.0.0.1', 'root', '', 'quang_trong_hang_shop');
+    if ($mysqli->connect_errno) {
+        $error = 'Database connection failed: ' . $mysqli->connect_error;
+    } else {
+        $mysqli->set_charset('utf8mb4');
+
+        // Save to contact_messages table (prepared statement)
+        $stmt = $mysqli->prepare(
+            "INSERT INTO contact_messages (name, email, subject, message, ip) VALUES (?, ?, ?, ?, ?)"
+        );
+        if (!$stmt) {
+            $error = 'DB error: ' . $mysqli->error;
+        } else {
+            $stmt->bind_param('sssss', $name, $email, $subject, $message, $ip);
+            if ($stmt->execute()) {
+                $success = 'Thank you for contacting us! We will get back to you as soon as possible.';
+            } else {
+                $error = 'Could not save your message. Please try again later.';
+            }
+            $stmt->close();
+        }
+
+        $mysqli->close();
+    }
 }
 ?>
 
