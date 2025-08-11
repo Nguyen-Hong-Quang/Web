@@ -1,0 +1,14 @@
+{
+  "gateway": "MBBank",
+  "transactionDate": "2025-07-29 17:05:00",
+  "accountNumber": "51122889915",
+  "subAccount": null,
+  "code": null,
+  "content": "ORDER 1 1753783304 FT25210323390855   Ma giao dich  Trace681665 Trace 681665",
+  "transferType": "in",
+  "description": "BankAPINotify ORDER 1 1753783304 FT25210323390855   Ma giao dich  Trace681665 Trace 681665",
+  "transferAmount": 10000,
+  "referenceCode": "FT25210626734504",
+  "accumulated": 0,
+  "id": 18911538
+}
